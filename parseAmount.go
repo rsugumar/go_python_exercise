@@ -37,13 +37,16 @@ func getCurrencyAmount(currencyVal string, currencyStr []string) (float64, error
 	var currency string
 	var no float64
 	fmt.Sscanf(currencyVal, "%s %f", &currency, &no)
+
 	sort.Strings(currencyStr)
-	if sort.SearchStrings(currencyStr, currency) == len(currencyStr) {
+	found := sort.SearchStrings(currencyStr, currency)
+	if found < len(currencyStr) && currencyStr[found] == currency {
+		return no, nil
+	} else {
 		e := fmt.Sprintf("Invalid currency found: %s; Expected Currency: %s",
 			currency, currencyStr)
 		return 0, errors.New(e)
 	}
-	return no, nil
 }
 
 func getRangeValue(amount float64, rangeVals []string) (float64, float64, error) {
@@ -68,13 +71,17 @@ func getRangeValue(amount float64, rangeVals []string) (float64, float64, error)
 func processInput(configFileName string, amount string) {
 	config, err := parseConfigFile(configFileName)
 	if err != nil {
+		fmt.Println("------------------------------------------------------------------------------------------------------------------")
 		fmt.Println("Config file - Error found. Valid JSON config expected")
+		fmt.Println("------------------------------------------------------------------------------------------------------------------")
 		return
 	}
 
 	no, err := getCurrencyAmount(amount, config.SupportedCurrencySymbol)
 	if err != nil {
-		fmt.Println("getCurrencyAmount() failed!")
+		fmt.Println("------------------------------------------------------------------------------------------------------------------")
+		fmt.Println("getCurrencyAmount() failed! Invalid input: ", amount)
+		fmt.Println("------------------------------------------------------------------------------------------------------------------")
 		return
 	}
 	start, end, err := getRangeValue(no, config.SupportedRange)
@@ -87,9 +94,9 @@ func processInput(configFileName string, amount string) {
 		for i := range config.SupportedRange {
 			rangeStr += config.SupportedRange[i] + ", "
 		}
-		fmt.Println(fmt.Sprintf("%s not in the given range: %s", amount, rangeStr))
+		fmt.Println(fmt.Sprintf("%s NOT in the given range: %s", amount, rangeStr))
 	} else {
-		fmt.Println(fmt.Sprintf("%s falls within range %f - %f", amount, start, end))
+		fmt.Println(fmt.Sprintf("%s falls WITHIN range %f - %f", amount, start, end))
 	}
 	fmt.Println("------------------------------------------------------------------------------------------------------------------")
 }

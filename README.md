@@ -7,6 +7,13 @@ NOTE:
     - Uses python 3 and go from docker latest images (docker hub)
     - config.json file: This contains the supported currencies symbol and the pre-defined ranges
 
+ASSUMPTION:
+-----------
+    - This code supports input with the format as: findRange.py -c ./config.json -i "SGD 12.34"
+    - The currency symbols mentioned in config.json is list of supported symbols
+    - The input amount should have the supported currency symbol BEFORE the number to work well; symbol after the number is currently NOT supported
+    - SPACE needed between the currency symbol and the amount
+
 DOCKER PULL:
 ------------
     To pull from Docker Hub:
