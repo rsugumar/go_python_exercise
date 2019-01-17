@@ -17,7 +17,7 @@ ASSUMPTION:
 DOCKER PULL:
 ------------
     To pull from Docker Hub:
-        command: docker pull rsukumar/iamplus
+        command: docker pull rsukumar/iamplus:latest
 
 RUN WITH DOCKER:
 ----------------
