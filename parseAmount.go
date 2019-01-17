@@ -11,8 +11,8 @@ import (
 )
 
 type Configuration struct {
-	SupportedCurrencyStr []string `json:"supportedCurrencyStr"`
-	SupportedRange       []string `json:"supportedRange"`
+	SupportedCurrencySymbol []string `json:"supportedCurrencySymbol"`
+	SupportedRange          []string `json:"supportedRange"`
 }
 
 func parseConfigFile(fileName string) (Configuration, error) {
@@ -72,7 +72,7 @@ func processInput(configFileName string, amount string) {
 		return
 	}
 
-	no, err := getCurrencyAmount(amount, config.SupportedCurrencyStr)
+	no, err := getCurrencyAmount(amount, config.SupportedCurrencySymbol)
 	if err != nil {
 		fmt.Println("getCurrencyAmount() failed!")
 		return
